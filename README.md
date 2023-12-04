@@ -191,12 +191,13 @@ X_test = loaded_X_test.reshape([-1, np.product((64,64,3))])
 ## Random Forest
 
 ## Convolutional Neural Network
+Installations:
 ```shell
 pip install torch
 pip install numpy
-pip install scipy
+pip install matplotlib.pyplot
 ```
-
+To duplicate the result, run the following command:
 ```shell
 python run.py
 ```
