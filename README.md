@@ -56,7 +56,7 @@ code = {'NORMAL':0 ,'PNEUMONIA':1}
 3. The images are large in size, which will take a long time to train the model. Therefore, we need to resize the images to a smaller size. To do so, we use the cv2 module to read the images and resize them to 64x64 pixels. We then save the data into a numpy array. They can be seen on the github repository under Chest_xRay/Daata/data_transformed.
 
 The following code is used to perform the above steps for the training and test set.  
-```
+
 ```python
 import cv2
 import glob as gb
@@ -79,9 +79,9 @@ for folder in  os.listdir(trainpath) :
 np.save('X_train',X_train)
 np.save('y_train',y_train)
 ```
-```
 
-```
+
+
 ```python
 #the directory that contain the train images set
 testpath='/Users/conny/Desktop/QTM 347/FinalProject/mydata/test/'
@@ -99,7 +99,7 @@ for folder in  os.listdir(testpath) :
 np.save('X_test',X_test)
 np.save('y_test',y_test)
 ```
-```
+
 
 Let us check the shape of the training set to better understand what the data looks like at this point.
 ```python
