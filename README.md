@@ -106,7 +106,9 @@ Let us check the shape of the training set to better understand what the data lo
 print('Train Data Set Shape = {}'.format(np.array(X_train).shape))
 print('Train Labels Shape = {}'.format(np.array(y_train).shape))
 '''
-![Alt text for the image](URL_of_the_image)
+![Training Shape](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/train_shape.png)
+
+This illustrates that we have successfully converted the images into a numpy array and the labels into a list of numbers. 5216 shows that we have 5216 images in the training set. 64, 64, 3 shows that the images are 64x64 pixels and have 3 channels. X-ray images are all in grayscale, so that we can convert the 3 channels into 1 channel.
 
 
 ## Description of the Processed Dataset
