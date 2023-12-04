@@ -191,7 +191,7 @@ X_test = loaded_X_test.reshape([-1, np.product((64,64,3))])
 ## Random Forest
 
 ## Convolutional Neural Network
-Installations:
+Required installations:
 ```shell
 pip install torch
 pip install numpy
@@ -213,8 +213,8 @@ Contributors names and contact info
 Name: Junyi (Conny) Zhou  
 Contact: junyi.zhou@emory.edu
 
-Name: Simon Liu  
-Contact:
+Name: Simon (Songyuan) Liu  
+Contact: simon.liu@emory.edu
 
 Name: Zhengyi Ou  
 Contact:
