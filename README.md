@@ -264,6 +264,7 @@ print(f"Best Number of Components: {best_num_components}, with an average test e
 Best Number of Components: 140, with an average test error of: 0.04064167979928224.
 
 Here is a close look into the change of validation error as the number of components increases.
+![Trend](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/PCR_trend.png)
 
 ```python
 # Plot the validation error as a function of the number of components
