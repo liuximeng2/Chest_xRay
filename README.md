@@ -7,10 +7,13 @@
     <li><a href="#description-of-the-raw-dataset">Description of the Raw Dataset</a></li>
     <li><a href="#data-preprocessing">Data Preprocessing</a></li>
     <li><a href="#description-of-the-processed-dataset">Description of the Processed Dataset</a></li>
-    <li><a href="#knn">KNN</a></li>
-    <li><a href="#principal-component-regression">Principal Component Regression</a></li>
+    <li><a href="#modeling">Modeling</a></li>
+    <ul>
+        <li><a href="#knn">KNN</a></li>
+        <li><a href="#principal-component-regression">Principal Component Regression</a></li>
     <li><a href="#random-forest">Random Forest</a></li>
     <li><a href="#convolutional-neural-network">Convolutional Neural Network</a></li>
+      </ul>
   </ol>
 </details>
 
@@ -172,9 +175,18 @@ plotHistogram(loaded_X_train[np.random.randint(len(loaded_X_train))])
 
 This histogram shows that the pixel values are distributed between 0 and 255. Some of the greatest counts are at 0. The grayscale image shows the intensity of the pixels. The darker the pixel, the lower the intensity. The lighter the pixel, the higher the intensity. At 0, the pixel is completely dark. At 255, the pixel is completely white. 
 
+
+
+```python
+#flatten the images into a 2d array, for model training and testing
+X_train = loaded_X_train.reshape([-1, np.product((64,64,3))])
+X_test = loaded_X_test.reshape([-1, np.product((64,64,3))])
+```
+
 ## KNN
 
 ## Principal Component Regression
+
 
 ## Random Forest
 
