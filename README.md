@@ -10,7 +10,7 @@
     <li><a href="#knn">KNN</a></li>
     <li><a href="#principal-component-regression">Principal Component Regression</a></li>
     <li><a href="#random-forest">Random Forest</a></li>
-    <li><a href="#cnn">Convolutional Neural Network</a></li>
+    <li><a href="#convolutional-neural-network">Convolutional Neural Network</a></li>
   </ol>
 </details>
 
