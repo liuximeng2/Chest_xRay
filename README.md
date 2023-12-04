@@ -17,9 +17,9 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#description of the raw dataset">Description of the Raw Dataset</a></li>
-    <li><a href="#data preprocessing">Data Preprocessing</a></li>
-    <li><a href="#description of the processed dataset">Description of the Processed Dataset</a></li>
+    <li><a href="#description-of-the-raw-dataset">Description of the Raw Dataset</a></li>
+    <li><a href="#data-preprocessing">Data Preprocessing</a></li>
+    <li><a href="#description-of-the-processed-dataset">Description of the Processed Dataset</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
