@@ -197,6 +197,10 @@ pip install torch
 pip install numpy
 pip install matplotlib.pyplot
 ```
+Result:
+```python
+Train accuracy: 97%, Validation accuracy: 87%, Test accuracy: 74%
+```
 To duplicate the result, run the following command:
 ```shell
 python run.py
