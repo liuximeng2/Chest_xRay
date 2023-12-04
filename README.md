@@ -80,8 +80,6 @@ np.save('X_train',X_train)
 np.save('y_train',y_train)
 ```
 
-
-
 ```python
 #the directory that contain the train images set
 testpath='/Users/conny/Desktop/QTM 347/FinalProject/mydata/test/'
