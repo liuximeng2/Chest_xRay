@@ -39,25 +39,25 @@ For the analysis of chest x-ray images, all chest radiographs were initially scr
 Given that the provided validation set has relatively few images, we decided to prioritize the method of cross-validation in the training dataset over the validation set. 
 For cross-validation, we use the KFold function from sklearn.model_selection to split the training dataset into 5 folds. To ensure replicability, we set the random_state to 123 across all models.
 
-'''python
+```python
 import sklearn.model_selection as skm
 kfold = skm.KFold(n_splits=5, shuffle=True, random_state=123)
-'''
+```
 
 - Regarding the training and test set
 1. The two folders have subfolders dividing them into NORMAL and PNEUMONIA images. However, for the purpose of training the model, we need to have a single folder or list containing all the images. To do so, we use the os and glob modules to read the images from the subfolders and save them into a single folder.
 
 2. We need to replace the labels of the images with 0 and 1. To do so, we create a dictionary with the key being the label and the value being the corresponding number. Then, we use the map function to replace the labels with the numbers.
 
-'''python
+```python
 code = {'NORMAL':0 ,'PNEUMONIA':1}
-'''
+```
 
 3. The images are large in size, which will take a long time to train the model. Therefore, we need to resize the images to a smaller size. To do so, we use the cv2 module to read the images and resize them to 64x64 pixels. We then save the data into a numpy array. They can be seen on the github repository under Chest_xRay/Daata/data_transformed.
 
 The following code is used to perform the above steps for the training and test set.  
-'''
-'''python
+```
+```python
 import cv2
 import glob as gb
 import os
@@ -78,11 +78,11 @@ for folder in  os.listdir(trainpath) :
         y_train.append(code[folder])
 np.save('X_train',X_train)
 np.save('y_train',y_train)
-'''
-'''
+```
+```
 
-'''
-'''python
+```
+```python
 #the directory that contain the train images set
 testpath='/Users/conny/Desktop/QTM 347/FinalProject/mydata/test/'
 
@@ -98,23 +98,36 @@ for folder in  os.listdir(testpath) :
         y_test.append(code[folder])
 np.save('X_test',X_test)
 np.save('y_test',y_test)
-'''
-'''
+```
+```
 
 Let us check the shape of the training set to better understand what the data looks like at this point.
-'''python
+```python
 print('Train Data Set Shape = {}'.format(np.array(X_train).shape))
 print('Train Labels Shape = {}'.format(np.array(y_train).shape))
-'''
+```
 ![Training Shape](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/train_shape.png)
 
-This illustrates that we have successfully converted the images into a numpy array and the labels into a list of numbers. 5216 shows that we have 5216 images in the training set. 64, 64, 3 shows that the images are 64x64 pixels and have 3 channels. X-ray images are all in grayscale, so that we can convert the 3 channels into 1 channel.
+This illustrates that we have successfully converted the images into a numpy array and the labels into a list of numbers. 5216 shows that we have 5216 images in the training set. 64, 64, 3 shows that the images are 64x64 pixels and have 3 channels. X-ray images are all in grayscale, so that we can convert the 3 channels into 1 channel to save space and improve computational efficiency.
 
 
 ## Description of the Processed Dataset
+In the previous section, we talked about how the data is transformed and stored on github. Next we perform some data exploration to better understand the data.
+
+First, let us look at some of the images to know what we are dealing with. Is it possible to tell the difference between a normal and pneumonia patient by naked eyes?
+```python
+#plotting images of NORMAL and PNEUMONIA
+plt.figure(figsize=(20,10))
+for n , i in enumerate(np.random.randint(0,len(loaded_X_train),16)): 
+    plt.subplot(2,8,n+1)
+    plt.imshow(loaded_X_train[i])
+    plt.axis('off')
+    plt.title(getcode(loaded_y_train[i]))
+```
 
 
 
+![Training Shape](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/train_shape.png)
 ## Authors
 
 Contributors names and contact info
