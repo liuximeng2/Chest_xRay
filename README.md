@@ -194,7 +194,7 @@ X_test = loaded_X_test.reshape([-1, np.product((64,64,3))])
 
 ```shell
 python run.py
-
+```
 
 ## Authors
 
