@@ -285,6 +285,7 @@ pipe.fit(X_train, y_train)
 pipe.score(X_test, y_test)
 print(f"Test Error of PCR using the best number of components(140): {1 - pipe.score(X_test, y_test)}")
 ```
+Test Error of PCR using the best number of components(140): 0.21153846153846156
 
 ## Random Forest
 
