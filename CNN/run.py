@@ -13,6 +13,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f'Training on {device}')
 
 pixel = 648
+num_epoch = 5
 
 variable = transforms.Compose(
     [
@@ -27,8 +28,8 @@ train_data = datasets.ImageFolder(root = 'data/chest_xray/train/', transform =va
 val_data = datasets.ImageFolder(root = 'data/chest_xray/val/', transform =variable)
 test_data = datasets.ImageFolder(root = 'data/chest_xray/test/', transform =variable)
 trainloader = torch.utils.data.DataLoader(train_data, batch_size=8, shuffle=True)
-validloader = torch.utils.data.DataLoader(train_data, batch_size=8, shuffle=True)
-testloader = torch.utils.data.DataLoader(train_data, batch_size=8, shuffle=True)
+validloader = torch.utils.data.DataLoader(val_data, batch_size=8, shuffle=True)
+testloader = torch.utils.data.DataLoader(test_data, batch_size=8, shuffle=True)
 
 model = GraphConvolution(pixel)
 model.to(device)
@@ -36,7 +37,7 @@ model.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
-for epoch in range(2):
+for epoch in range(num_epoch):
     running_loss = 0.0
     for i, data in enumerate(trainloader, 0):
 
