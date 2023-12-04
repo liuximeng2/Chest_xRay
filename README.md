@@ -176,7 +176,7 @@ plotHistogram(loaded_X_train[np.random.randint(len(loaded_X_train))])
 This histogram shows that the pixel values are distributed between 0 and 255. Some of the greatest counts are at 0. The grayscale image shows the intensity of the pixels. The darker the pixel, the lower the intensity. The lighter the pixel, the higher the intensity. At 0, the pixel is completely dark. At 255, the pixel is completely white. 
 
 
-
+## Modeling
 ```python
 #flatten the images into a 2d array, for model training and testing
 X_train = loaded_X_train.reshape([-1, np.product((64,64,3))])
