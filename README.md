@@ -37,16 +37,15 @@ Chest X-ray images (anterior-posterior) were selected from retrospective cohorts
 For the analysis of chest x-ray images, all chest radiographs were initially screened for quality control by removing all low quality or unreadable scans. The diagnoses for the images were then graded by two expert physicians before being cleared for training the AI system. In order to account for any grading errors, the evaluation set was also checked by a third expert.
 
 ## Data Preprocessing
-- Regarding the validation set
+- Regarding the validation set  
 Given that the provided validation set has relatively few images, we decided to prioritize the method of cross-validation in the training dataset over the validation set. 
-For cross-validation, we use the KFold function from sklearn.model_selection to split the training dataset into 5 folds. To ensure replicability, we set the random_state to 123 across all models.
 
 ```python
 import sklearn.model_selection as skm
 kfold = skm.KFold(n_splits=5, shuffle=True, random_state=123)
 ```
 
-- Regarding the training and test set
+- Regarding the training and test set  
 1. The two folders have subfolders dividing them into NORMAL and PNEUMONIA images. However, for the purpose of training the model, we need to have a single folder or list containing all the images. To do so, we use the os and glob modules to read the images from the subfolders and save them into a single folder.
 
 2. We need to replace the labels of the images with 0 and 1. To do so, we create a dictionary with the key being the label and the value being the corresponding number. Then, we use the map function to replace the labels with the numbers.
@@ -177,16 +176,142 @@ This histogram shows that the pixel values are distributed between 0 and 255. So
 
 
 ## Modeling
+In this section, we will talk about the models that we used to classify the images. We will talk about the models that we used, the hyperparameters that we tuned, and the results that we got.
+
+Before that, we need to perform a final step of data preprocessing. We need to flatten the images into a 2d array, so that we can feed the data into the models.
+
+In the end, this 2d array will have the size of (5216, 4096). 5216 is the number of images in the training set. 12288 is the number of pixels in each image. 64x64x1 = 4096.
+
 ```python
 #flatten the images into a 2d array, for model training and testing
-X_train = loaded_X_train.reshape([-1, np.product((64,64,3))])
-X_test = loaded_X_test.reshape([-1, np.product((64,64,3))])
+X_test = loaded_X_test.reshape(624, 64*64)
+X_train = loaded_X_train.reshape(5216, 64*64)
+```
+
+We then scale the data using StandardScaler. This is to make sure that the data is centered around 0 and has a standard deviation of 1. This is to make sure that the data is not biased towards any particular feature.
+
+```python
+#Scaling
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.fit_transform(X_test)
+```
+While the above steps are applied to all the models, the name of the variables might be slightly different as a result of personal choices when we assign the tasks to each member of the group. However, the steps are the same.
+
+Then we start our principal component analysis. We use the following library to perform PCA and logistic regression. 
+```python
+import warnings
+from sklearn.exceptions import ConvergenceWarning
+import sklearn.model_selection as skm
+from sklearn.decomposition import PCA
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
+```
+
+The only hyperparameter that we tuned for PCA is the number of components. We tried different numbers of components and see which one gives us the lowest validation error. We used 5-fold cross validation to get the validation error. We then use the best number of components to train the model and get the test error.
+
+```python
+kfold = skm.KFold(n_splits=5, shuffle=True, random_state=123)
+```
+
+For the choice of the number of components, we tried a range from 10 to 200 with a step size of 10. The reason behind this range of choice is that empirical evidence shows that the optimal number of components usually lies around the square root of the number of features. In our case, the number of pixels flattened is 4096. So we need to ensure that the range include something around 64. We also need to make sure that the range is not too large, so that the model does not take too long to run.
+
+```python
+num_components_PCA = np.arange(10, 200, 10)
+```
+
+We then loop through the range of number of components and get the validation error for each number of components. We then choose the number of components that gives us the lowest validation error. We then use this number of components to train the model and get the test error.
+
+```python
+best_num_components = None
+best_val_accuracy = 0
+pcr_val_accuracy = []
+
+for n in num_components_PCA:
+    # Create a pipeline with PCA and logistic regression
+    pca = PCA(n_components=n)
+    logistic_reg = LogisticRegression()
+    pipe = Pipeline([('pca', pca), ('logistic', logistic_reg)])
+
+    scores = cross_val_score(pipe, X_train, y_train, cv=kfold, scoring='accuracy')
+
+    mean_accuracy = np.mean(scores)
+    pcr_val_accuracy.append(mean_accuracy)
+
+    if mean_accuracy > best_val_accuracy:
+        best_val_accuracy = mean_accuracy
+        best_num_components = n
+
+pcr_val_error = 1 - np.array(pcr_val_accuracy)
+bst_pcr_val_error = 1 - best_val_accuracy
+
+# After the loop, best_num_components will have the number of components with the highest mean accuracy or the lowest mean error
+print(f"Best Number of Components: {best_num_components}, with an average test error of: {bst_pcr_val_error}")
+```
+
+Best Number of Components: 140, with an average test error of: 0.04064167979928224.
+
+Here is a close look into the change of validation error as the number of components increases.
+
+```python
+# Plot the validation error as a function of the number of components
+plt.figure(figsize=(10,6))
+plt.plot(np.arange(10, 200, 10), pcr_val_error, marker='o', linestyle='--', color='r')
+plt.xlabel('Number of Components')
+plt.ylabel('Validation Error')
+plt.title('Validation Error vs Number of Components')
+plt.show()
+```
+Let us retrain the model using the best number of components and get the test error.
+
+```python
+#Use the best number of components to fit the PCA model
+pca = PCA(n_components=best_num_components)
+pipe = Pipeline([('pca', pca), ('logistic', logistic_reg)])
+pipe.fit(X_train, y_train)
+pipe.score(X_test, y_test)
+print(f"Test Error of PCR using the best number of components(140): {1 - pipe.score(X_test, y_test)}")
 ```
 
 ## KNN
 
 ## Principal Component Regression
+Principal Component Regression (PCR) is a regression method that uses Principal Component Analysis (PCA) to reduce the number of predictor variables. It is a method that is used to deal with multicollinearity. It is also a method that is used to deal with the curse of dimensionality.
 
+Given the case that we have 4096 features, we want to reduce the number of features to a more manageable number. One of the important hyperparameters of PCR is the number of components. We will tune this hyperparameter to find the best number of components.
+
+To do so, we rely on cross validation. We use the KFold function from sklearn.model_selection to split the training dataset into 5 folds. To ensure replicability, we set the random_state to 123 across all models.
+
+```python
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
+
+num_components_PCA = np.arange(60, 120, 10)
+kfold = skm.KFold(n_splits=5, shuffle=True, random_state=123)
+
+best_num_components = None
+best_val_accuracy = 0
+pcr_val_accuracy = []
+
+for n in num_components_PCA:
+    # Create a pipeline with PCA and logistic regression
+    pca = PCA(n_components=n)
+    logistic_reg = LogisticRegression()
+    pipe = Pipeline([('pca', pca), ('logistic', logistic_reg)])
+
+    scores = cross_val_score(pipe, X_train, y_train, cv=kfold, scoring='accuracy')
+
+    mean_accuracy = np.mean(scores)
+    pcr_val_accuracy.append(mean_accuracy)
+
+    if mean_accuracy > best_val_accuracy:
+        best_val_accuracy = mean_accuracy
+        best_num_components = n
+
+# After the loop, best_num_components will have the number of components with the highest mean accuracy
+print(f"Best Number of Components: {best_num_components}, with an average accuracy of: {best_val_accuracy}")
+```
 
 ## Random Forest
 
