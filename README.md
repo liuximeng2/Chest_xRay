@@ -1,37 +1,117 @@
 # Chest X-Ray Classification Machine Learning Project
 
-Simple overview of use/purpose.
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
-## Description
+## Description of the Raw Dataset
 
-An in-depth paragraph about your project and overview of use.
+The dataset is organized into 3 folders (train, test, val) and contains subfolders for each image category (Pneumonia/Normal). There are 5,863 X-Ray images (JPEG) and 2 categories (Pneumonia/Normal).
 
-## Getting Started
+Chest X-ray images (anterior-posterior) were selected from retrospective cohorts of pediatric patients of one to five years old from Guangzhou Women and Children’s Medical Center, Guangzhou. All chest X-ray imaging was performed as part of patients’ routine clinical care.
 
-### Dependencies
+For the analysis of chest x-ray images, all chest radiographs were initially screened for quality control by removing all low quality or unreadable scans. The diagnoses for the images were then graded by two expert physicians before being cleared for training the AI system. In order to account for any grading errors, the evaluation set was also checked by a third expert.
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+## Data Preprocessing
+- Regarding the validation set
+Given that the provided validation set has relatively few images, we decided to prioritize the method of cross-validation in the training dataset over the validation set. 
+For cross-validation, we use the KFold function from sklearn.model_selection to split the training dataset into 5 folds. To ensure replicability, we set the random_state to 123 across all models.
 
-### Installing
+'''python
+import sklearn.model_selection as skm
+kfold = skm.KFold(n_splits=5, shuffle=True, random_state=123)
+'''
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+- Regarding the training and test set
+1. The two folders have subfolders dividing them into NORMAL and PNEUMONIA images. However, for the purpose of training the model, we need to have a single folder or list containing all the images. To do so, we use the os and glob modules to read the images from the subfolders and save them into a single folder.
 
-### Executing program
+2. We need to replace the labels of the images with 0 and 1. To do so, we create a dictionary with the key being the label and the value being the corresponding number. Then, we use the map function to replace the labels with the numbers.
 
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
-```
+'''python
+code = {'NORMAL':0 ,'PNEUMONIA':1}
+'''
 
-## Help
+3. The images are large in size, which will take a long time to train the model. Therefore, we need to resize the images to a smaller size. To do so, we use the cv2 module to read the images and resize them to 64x64 pixels. We then save the data into a numpy array. They can be seen on the github repository under Chest_xRay/Daata/data_transformed.
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+The following code is used to perform the above steps for the training and test set.  
+'''
+'''python
+import cv2
+import glob as gb
+import os
+import numpy as np
+#the directory that contain the train images set
+trainpath='/Users/conny/Desktop/QTM 347/FinalProject/mydata/train/'
+
+X_train = []
+y_train = []
+for folder in  os.listdir(trainpath) : 
+    #gb.glob returns a list of all paths matching a pathname, here it returns a list of all the images in the folder
+    files = gb.glob(pathname= str( trainpath + folder + '/*.jpeg'))
+    for file in files: 
+        image = cv2.imread(file)
+        #resize images to 64 x 64 pixels
+        image_array = cv2.resize(image , (64,64))
+        X_train.append(list(image_array))
+        y_train.append(code[folder])
+np.save('X_train',X_train)
+np.save('y_train',y_train)
+'''
+'''
+
+'''
+'''python
+#the directory that contain the train images set
+testpath='/Users/conny/Desktop/QTM 347/FinalProject/mydata/test/'
+
+X_test = []
+y_test = []
+for folder in  os.listdir(testpath) : 
+    files = gb.glob(pathname= str( testpath + folder + '/*.jpeg'))
+    for file in files: 
+        image = cv2.imread(file)
+        #resize images to 64 x 64 pixels
+        image_array = cv2.resize(image , (64,64))
+        X_test.append(list(image_array))
+        y_test.append(code[folder])
+np.save('X_test',X_test)
+np.save('y_test',y_test)
+'''
+'''
+
+Let us check the shape of the training set to better understand what the data looks like at this point.
+'''python
+print('Train Data Set Shape = {}'.format(np.array(X_train).shape))
+print('Train Labels Shape = {}'.format(np.array(y_train).shape))
+'''
+![Alt text for the image](URL_of_the_image)
+
+
+## Description of the Processed Dataset
+
+
 
 ## Authors
 
