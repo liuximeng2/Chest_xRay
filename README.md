@@ -17,9 +17,9 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#description of the raw dataset">Description of the Raw Dataset</a></li>
+    <li><a href="#data preprocessing">Data Preprocessing</a></li>
+    <li><a href="#description of the processed dataset">Description of the Processed Dataset</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -112,7 +112,7 @@ This illustrates that we have successfully converted the images into a numpy arr
 ## Description of the Processed Dataset
 In the previous section, we talked about how the data is transformed and stored on github. Next we perform some data exploration to better understand the data.
 
-First, let us look at some of the images to know what we are dealing with. Is it possible to tell the difference between a normal and pneumonia patient by naked eyes?
+- First, let us look at some of the images to know what we are dealing with. Is it possible to tell the difference between a normal and pneumonia patient by naked eyes?
 ```python
 #plotting images of NORMAL and PNEUMONIA
 plt.figure(figsize=(20,10))
@@ -122,10 +122,58 @@ for n , i in enumerate(np.random.randint(0,len(loaded_X_train),16)):
     plt.axis('off')
     plt.title(getcode(loaded_y_train[i]))
 ```
+![Chest Images](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/Chest%20Images.png)
+
+As we can see, it is quite difficult to tell the difference between the two types of images. This is why we need to use machine learning to help us classify the images.
+
+- Next, let us look at the distribution of the labels in the training set.
+
+```python
+#count plot to show the number of pneumonia cases to normal cases in the train data set
+df_train = pd.DataFrame()
+df_train["labels"]= loaded_y_train
+lab = df_train['labels']
+dist = lab.value_counts()
+dist = pd.DataFrame({'Label': dist.index, 'Count': dist.values})
+plt.bar(dist['Label'], dist['Count'], color ='maroon', 
+        width = 0.4, tick_label = dist['Label'])
+plt.show()
+```
+![Distributuon](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/count.png)
+
+As we can see, there are more pneumonia cases than normal cases in the training set. This is a potential issue that we might need to deal with later. Let us keep this in mind.
+
+- Next, let us look at the pixel values of the images after we reduced the size of the images. Particularly, we want to see the distribution of the pixel values of the images. We will plot the distribution of the pixel values of a random image in the training set.
+
+```python
+def plotHistogram(a):
+    plt.figure(figsize=(12, 6))
+    
+    # Display the grayscale image
+    plt.subplot(1, 2, 1)
+    plt.imshow(a, cmap='gray')
+    plt.title('Grayscale Image Display', fontsize=15)
+
+    # Histogram for the grayscale image
+    histo = plt.subplot(1, 2, 2)
+    histo.set_title('Pixel Intensity Distribution', fontsize=15)
+    histo.set_ylabel('Count', fontsize=12)
+    histo.set_xlabel('Pixel Intensity', fontsize=12)
+    n_bins = 30
+
+    # Plot histogram
+    plt.hist(a[:,:,0].flatten(), bins=n_bins, lw=0, color='black', alpha=0.7)
+    plt.hist(a[:,:,1].flatten(), bins=n_bins, lw=0, color='black', alpha=0.7)
+    plt.hist(a[:,:,2].flatten(), bins=n_bins, lw=0, color='black', alpha=0.7)
+
+    plt.tight_layout()  # Adjust the layout
+plotHistogram(loaded_X_train[np.random.randint(len(loaded_X_train))])
+```
+![Histogram](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/pixel_image.png)
+
+This histogram shows that the pixel values are distributed between 0 and 255. Some of the greatest counts are at 0. The grayscale image shows the intensity of the pixels. The darker the pixel, the lower the intensity. The lighter the pixel, the higher the intensity. At 0, the pixel is completely dark. At 255, the pixel is completely white. 
 
 
-
-![Training Shape](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/train_shape.png)
 ## Authors
 
 Contributors names and contact info
