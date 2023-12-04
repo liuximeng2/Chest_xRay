@@ -1,30 +1,29 @@
 # Chest X-Ray Classification Machine Learning Project
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
+    <li><a href="#overview-of-the-project">Overview of the Project</a><li>
     <li><a href="#description-of-the-raw-dataset">Description of the Raw Dataset</a></li>
     <li><a href="#data-preprocessing">Data Preprocessing</a></li>
     <li><a href="#description-of-the-processed-dataset">Description of the Processed Dataset</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#knn">KNN</a></li>
+    <li><a href="#principal-component-regression">Principal Component Regression</a></li>
+    <li><a href="#random-forest">Random Forest</a></li>
+    <li><a href="#cnn">Convolutional Neural Network</a></li>
   </ol>
 </details>
+
+## Overview of the Project
+The goal of this project is to build a machine learning model that can classify chest X-ray images into normal and pneumonia. The dataset is from Kaggle and can be found [here](https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia). 
+
+The minor distinction between healthy and bacterial pneumonia chest X-rays presents considerable challenges for image classification, offering substantial scope for the application and evaluation of various machine learning models.
+
+We consider the following models:
+- K-Nearest Neighbors
+- Principal Component Analysis with Logistic Regression
+- Random Forest
+- Convolutional Neural Network
 
 ## Description of the Raw Dataset
 
@@ -172,6 +171,14 @@ plotHistogram(loaded_X_train[np.random.randint(len(loaded_X_train))])
 ![Histogram](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/pixel_image.png)
 
 This histogram shows that the pixel values are distributed between 0 and 255. Some of the greatest counts are at 0. The grayscale image shows the intensity of the pixels. The darker the pixel, the lower the intensity. The lighter the pixel, the higher the intensity. At 0, the pixel is completely dark. At 255, the pixel is completely white. 
+
+## KNN
+
+## Principal Component Regression
+
+## Random Forest
+
+## Convolutional Neural Network
 
 
 ## Authors
