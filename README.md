@@ -198,7 +198,17 @@ X_test = sc.fit_transform(X_test)
 ```
 While the above steps are applied to all the models, the name of the variables might be slightly different as a result of personal choices when we assign the tasks to each member of the group. However, the steps are the same.
 
+
+
+## KNN
+
+## Principal Component Regression
+Principal Component Regression (PCR) is a regression method that uses Principal Component Analysis (PCA) to reduce the number of predictor variables. It is a method that is used to deal with multicollinearity. It is also a method that is used to deal with the curse of dimensionality.
+
+Given the case that we have 4096 features, we want to reduce the number of features to a more manageable number. One of the important hyperparameters of PCR is the number of components. We will tune this hyperparameter to find the best number of components.
+
 Then we start our principal component analysis. We use the following library to perform PCA and logistic regression. 
+
 ```python
 import warnings
 from sklearn.exceptions import ConvergenceWarning
@@ -275,61 +285,10 @@ pipe.score(X_test, y_test)
 print(f"Test Error of PCR using the best number of components(140): {1 - pipe.score(X_test, y_test)}")
 ```
 
-## KNN
-
-## Principal Component Regression
-Principal Component Regression (PCR) is a regression method that uses Principal Component Analysis (PCA) to reduce the number of predictor variables. It is a method that is used to deal with multicollinearity. It is also a method that is used to deal with the curse of dimensionality.
-
-Given the case that we have 4096 features, we want to reduce the number of features to a more manageable number. One of the important hyperparameters of PCR is the number of components. We will tune this hyperparameter to find the best number of components.
-
-To do so, we rely on cross validation. We use the KFold function from sklearn.model_selection to split the training dataset into 5 folds. To ensure replicability, we set the random_state to 123 across all models.
-
-```python
-warnings.filterwarnings("ignore", category=ConvergenceWarning)
-
-num_components_PCA = np.arange(60, 120, 10)
-kfold = skm.KFold(n_splits=5, shuffle=True, random_state=123)
-
-best_num_components = None
-best_val_accuracy = 0
-pcr_val_accuracy = []
-
-for n in num_components_PCA:
-    # Create a pipeline with PCA and logistic regression
-    pca = PCA(n_components=n)
-    logistic_reg = LogisticRegression()
-    pipe = Pipeline([('pca', pca), ('logistic', logistic_reg)])
-
-    scores = cross_val_score(pipe, X_train, y_train, cv=kfold, scoring='accuracy')
-
-    mean_accuracy = np.mean(scores)
-    pcr_val_accuracy.append(mean_accuracy)
-
-    if mean_accuracy > best_val_accuracy:
-        best_val_accuracy = mean_accuracy
-        best_num_components = n
-
-# After the loop, best_num_components will have the number of components with the highest mean accuracy
-print(f"Best Number of Components: {best_num_components}, with an average accuracy of: {best_val_accuracy}")
-```
-
 ## Random Forest
 
 ## Convolutional Neural Network
-Required installations:
-```shell
-pip install torch
-pip install numpy
-pip install matplotlib.pyplot
-```
-Result:
-```python
-Train accuracy: 97%, Validation accuracy: 87%, Test accuracy: 74%
-```
-To duplicate the result, run the following command:
-```shell
-python run.py
-```
+
 
 ## Authors
 
@@ -338,8 +297,8 @@ Contributors names and contact info
 Name: Junyi (Conny) Zhou  
 Contact: junyi.zhou@emory.edu
 
-Name: Simon (Songyuan) Liu  
-Contact: simon.liu@emory.edu
+Name: Simon Liu  
+Contact:
 
 Name: Zhengyi Ou  
 Contact:
