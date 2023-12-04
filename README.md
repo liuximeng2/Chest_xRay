@@ -316,7 +316,20 @@ print(f"Best Number of Components: {best_num_components}, with an average accura
 ## Random Forest
 
 ## Convolutional Neural Network
-
+Required installations:
+```shell
+pip install torch
+pip install numpy
+pip install matplotlib.pyplot
+```
+Result:
+```python
+Train accuracy: 97%, Validation accuracy: 87%, Test accuracy: 74%
+```
+To duplicate the result, run the following command:
+```shell
+python run.py
+```
 
 ## Authors
 
@@ -325,8 +338,8 @@ Contributors names and contact info
 Name: Junyi (Conny) Zhou  
 Contact: junyi.zhou@emory.edu
 
-Name: Simon Liu  
-Contact:
+Name: Simon (Songyuan) Liu  
+Contact: simon.liu@emory.edu
 
 Name: Zhengyi Ou  
 Contact:
