@@ -3,7 +3,7 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#overview-of-the-project">Overview of the Project</a><li>
+    <li><a href="#overview-of-the-project">Overview of the Project</a></li>
     <li><a href="#description-of-the-raw-dataset">Description of the Raw Dataset</a></li>
     <li><a href="#data-preprocessing">Data Preprocessing</a></li>
     <li><a href="#description-of-the-processed-dataset">Description of the Processed Dataset</a></li>
@@ -37,7 +37,7 @@ Chest X-ray images (anterior-posterior) were selected from retrospective cohorts
 For the analysis of chest x-ray images, all chest radiographs were initially screened for quality control by removing all low quality or unreadable scans. The diagnoses for the images were then graded by two expert physicians before being cleared for training the AI system. In order to account for any grading errors, the evaluation set was also checked by a third expert.
 
 ## Data Preprocessing
-- Regarding the validation set  
+### Regarding the validation set  
 Given that the provided validation set has relatively few images, we decided to prioritize the method of cross-validation in the training dataset over the validation set. 
 
 ```python
