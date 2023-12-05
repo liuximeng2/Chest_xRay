@@ -303,7 +303,16 @@ def plot_cm(predictions, y_test, title):
 pipe_pred_pcr = pipe.predict(X_test)
 plot_cm(pipe_pred_pcr, y_test, 'PCR Confusion Matrix')
 ```
-![ConfusionMatrix](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/PCR_trend.png)
+![ConfusionMatrix](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/PCR_cm.png)
+We can see that there are more false negatives than false positives. This is largely attributed to the fact that the dataset is imbalanced. There are more images of pneumonia than normal. So the model is more likely to predict an image as pneumonia. To resolve this, we can use SMOTE to oversample the minority class.
+
+```python
+from imblearn.over_sampling import SMOTE
+smote = SMOTE(random_state=123)
+X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
+print(X_train_smote.shape)
+print(y_train_smote.shape)
+```
 
 
 ## Random Forest
@@ -329,13 +338,7 @@ Contact:
 
 
 
-## Version History
 
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
-* 0.1
-    * Initial Release
 
 ## License
 
