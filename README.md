@@ -105,7 +105,7 @@ Let us check the shape of the training set to better understand what the data lo
 print('Train Data Set Shape = {}'.format(np.array(X_train).shape))
 print('Train Labels Shape = {}'.format(np.array(y_train).shape))
 ```
-![Training Shape](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/train_shape.png)
+![Training Shape](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR/PCR_Images/train_shape.png)
 
 This illustrates that we have successfully converted the images into a numpy array and the labels into a list of numbers. 5216 shows that we have 5216 images in the training set. 64, 64, 3 shows that the images are 64x64 pixels and have 3 channels. X-ray images are all in grayscale, so that we can convert the 3 channels into 1 channel to save space and improve computational efficiency.
 
@@ -123,7 +123,7 @@ for n , i in enumerate(np.random.randint(0,len(loaded_X_train),16)):
     plt.axis('off')
     plt.title(getcode(loaded_y_train[i]))
 ```
-![Chest Images](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/Chest%20Images.png)
+![Chest Images](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR/PCR_Images/Chest%20Images.png)
 
 As we can see, it is quite difficult to tell the difference between the two types of images. This is why we need to use machine learning to help us classify the images.
 
@@ -140,7 +140,7 @@ plt.bar(dist['Label'], dist['Count'], color ='maroon',
         width = 0.4, tick_label = dist['Label'])
 plt.show()
 ```
-![Distributuon](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/count.png)
+![Distributuon](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR/PCR_Images/count.png)
 
 As we can see, there are more pneumonia cases than normal cases in the training set. This is a potential issue that we might need to deal with later. Let us keep this in mind.
 
@@ -170,7 +170,7 @@ def plotHistogram(a):
     plt.tight_layout()  # Adjust the layout
 plotHistogram(loaded_X_train[np.random.randint(len(loaded_X_train))])
 ```
-![Histogram](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/pixel_image.png)
+![Histogram](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR/PCR_Images/pixel_image.png)
 
 This histogram shows that the pixel values are distributed between 0 and 255. Some of the greatest counts are at 0. The grayscale image shows the intensity of the pixels. The darker the pixel, the lower the intensity. The lighter the pixel, the higher the intensity. At 0, the pixel is completely dark. At 255, the pixel is completely white. 
 
@@ -262,7 +262,7 @@ print(f"Best Number of Components: {best_num_components}, with an average test e
 Best Number of Components: 140, with an average test error of: 0.04064167979928224.
 
 Here is a close look into the change of validation error as the number of components increases.
-![Trend](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/PCR_trend.png)
+![Trend](https://github.com/liuximeng2/Chest_xRay/blob/main//PCR/PCR_Images/PCR_trend.png)
 
 ```python
 # Plot the validation error as a function of the number of components
@@ -303,7 +303,7 @@ def plot_cm(predictions, y_test, title):
 pipe_pred_pcr = pipe.predict(X_test)
 plot_cm(pipe_pred_pcr, y_test, 'PCR Confusion Matrix')
 ```
-![ConfusionMatrix](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/PCR_cm.png)
+![ConfusionMatrix](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR/PCR_Images/PCR_cm.png)
 
 - SMOTE(Synthetic Minority Oversampling Technique)
 We can see that there are more false negatives than false positives. This is largely attributed to the fact that the dataset is imbalanced. There are more images of pneumonia than normal. So the model is more likely to predict an image as pneumonia. To resolve this, we can use SMOTE to oversample the minority class.
@@ -362,7 +362,7 @@ pipe_pred_pcr_smote = pipe.predict(X_test)
 plot_cm(pipe_pred_pcr_smote, y_test, 'PCR Confusion Matrix')
 ```
 
-![ConfusionMatrix2](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/smote_pcr_cm.png)
+![ConfusionMatrix2](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR/PCR_Images/smote_pcr_cm.png)
 As we can see, the number of false negatives has decreased, while the number of false positives slightly increased. The overall test error has decreased.
 
 
