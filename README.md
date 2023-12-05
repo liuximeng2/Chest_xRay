@@ -105,7 +105,7 @@ Let us check the shape of the training set to better understand what the data lo
 print('Train Data Set Shape = {}'.format(np.array(X_train).shape))
 print('Train Labels Shape = {}'.format(np.array(y_train).shape))
 ```
-![Training Shape](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/train_shape.png)
+![Training Shape](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/train_shape.png)
 
 This illustrates that we have successfully converted the images into a numpy array and the labels into a list of numbers. 5216 shows that we have 5216 images in the training set. 64, 64, 3 shows that the images are 64x64 pixels and have 3 channels. X-ray images are all in grayscale, so that we can convert the 3 channels into 1 channel to save space and improve computational efficiency.
 
@@ -123,7 +123,7 @@ for n , i in enumerate(np.random.randint(0,len(loaded_X_train),16)):
     plt.axis('off')
     plt.title(getcode(loaded_y_train[i]))
 ```
-![Chest Images](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/Chest%20Images.png)
+![Chest Images](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/Chest%20Images.png)
 
 As we can see, it is quite difficult to tell the difference between the two types of images. This is why we need to use machine learning to help us classify the images.
 
@@ -140,7 +140,7 @@ plt.bar(dist['Label'], dist['Count'], color ='maroon',
         width = 0.4, tick_label = dist['Label'])
 plt.show()
 ```
-![Distributuon](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/count.png)
+![Distributuon](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/count.png)
 
 As we can see, there are more pneumonia cases than normal cases in the training set. This is a potential issue that we might need to deal with later. Let us keep this in mind.
 
@@ -170,7 +170,7 @@ def plotHistogram(a):
     plt.tight_layout()  # Adjust the layout
 plotHistogram(loaded_X_train[np.random.randint(len(loaded_X_train))])
 ```
-![Histogram](https://github.com/liuximeng2/Chest_xRay/blob/main/Images/pixel_image.png)
+![Histogram](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/pixel_image.png)
 
 This histogram shows that the pixel values are distributed between 0 and 255. Some of the greatest counts are at 0. The grayscale image shows the intensity of the pixels. The darker the pixel, the lower the intensity. The lighter the pixel, the higher the intensity. At 0, the pixel is completely dark. At 255, the pixel is completely white. 
 
@@ -178,9 +178,7 @@ This histogram shows that the pixel values are distributed between 0 and 255. So
 ## Modeling
 In this section, we will talk about the models that we used to classify the images. We will talk about the models that we used, the hyperparameters that we tuned, and the results that we got.
 
-Before that, we need to perform a final step of data preprocessing. We need to flatten the images into a 2d array, so that we can feed the data into the models.
-
-In the end, this 2d array will have the size of (5216, 4096). 5216 is the number of images in the training set. 12288 is the number of pixels in each image. 64x64x1 = 4096.
+Before that, we need to perform a final step of data preprocessing. We need to flatten the images into a 2d array, so that we can feed the data into the models. To this end, this 2d array will have the size of (5216, 4096). 5216 is the number of images in the training set. 4096 is the number of pixels in each image. 64x64x1 = 4096.
 
 ```python
 #flatten the images into a 2d array, for model training and testing
@@ -286,6 +284,27 @@ pipe.score(X_test, y_test)
 print(f"Test Error of PCR using the best number of components(140): {1 - pipe.score(X_test, y_test)}")
 ```
 Test Error of PCR using the best number of components(140): 0.21153846153846156
+
+-We can also look at the confusion matrix to see which classes are misclassified.
+
+```python
+#function to plot the confusion matrix for each model
+def plot_cm(predictions, y_test, title):
+  labels = ['Normal', 'Pnuemonia']
+  labels_predicted = ['Predicted Normal', 'Predicted Pnuemonia']
+  labels_actual = ['Actual Normal', 'Actual Pnuemonia']
+  cm = confusion_matrix(y_test,predictions)
+  cm = pd.DataFrame(cm , index = ['0','1'] , columns = ['0','1'])
+  plt.figure(figsize = (8,8))
+  plt.title(title)
+  sns.heatmap(cm, linecolor = 'black' , linewidth = 2 , annot = True, fmt='', xticklabels = labels_predicted, yticklabels = labels_actual)
+  plt.show()
+
+pipe_pred_pcr = pipe.predict(X_test)
+plot_cm(pipe_pred_pcr, y_test, 'PCR Confusion Matrix')
+```
+![ConfusionMatrix](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/PCR_trend.png)
+
 
 ## Random Forest
 
