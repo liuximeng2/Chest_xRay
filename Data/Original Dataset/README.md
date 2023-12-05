@@ -1,0 +1,1 @@
+### There is a limited campacity in terms of the number of images that we can upload to Github. This folder is not intended to be exhaustive. Please refer to the kaggle website for the full dataset.
