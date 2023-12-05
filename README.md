@@ -304,15 +304,66 @@ pipe_pred_pcr = pipe.predict(X_test)
 plot_cm(pipe_pred_pcr, y_test, 'PCR Confusion Matrix')
 ```
 ![ConfusionMatrix](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/PCR_cm.png)
+
 We can see that there are more false negatives than false positives. This is largely attributed to the fact that the dataset is imbalanced. There are more images of pneumonia than normal. So the model is more likely to predict an image as pneumonia. To resolve this, we can use SMOTE to oversample the minority class.
 
 ```python
 from imblearn.over_sampling import SMOTE
 smote = SMOTE(random_state=123)
 X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
-print(X_train_smote.shape)
-print(y_train_smote.shape)
 ```
+
+In this way, the number of images of normal and pneumonia are the same. We can then retrain the model and get the test error.
+
+```python
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
+
+num_components_PCA = np.arange(10, 200, 10)
+kfold = skm.KFold(n_splits=5, shuffle=True, random_state=123)
+
+best_num_components = None
+best_val_accuracy = 0
+pcr_val_accuracy = []
+
+for n in num_components_PCA:
+    # Create a pipeline with PCA and logistic regression
+    pca = PCA(n_components=n)
+    logistic_reg = LogisticRegression()
+    pipe = Pipeline([('pca', pca), ('logistic', logistic_reg)])
+
+    scores = cross_val_score(pipe, X_train_smote, y_train_smote, cv=kfold, scoring='accuracy')
+
+    mean_accuracy = np.mean(scores)
+    pcr_val_accuracy.append(mean_accuracy)
+
+    if mean_accuracy > best_val_accuracy:
+        best_val_accuracy = mean_accuracy
+        best_num_components = n
+
+# After the loop, best_num_components will have the number of components with the highest mean accuracy
+print(f"Best Number of Components: {best_num_components}, with an average error of: {1 - best_val_accuracy}")
+```
+Best Number of Components: 190, with an average error of: 0.03251612903225798
+
+```python
+#Use the best number of components to fit the PCA model
+pca = PCA(n_components=best_num_components)
+pipe = Pipeline([('pca', pca), ('logistic', logistic_reg)])
+pipe.fit(X_train_smote, y_train_smote)
+pipe.score(X_test, y_test)
+print(f"Test Error of PCR using the best number of components(190): {1 - pipe.score(X_test, y_test)}")
+```
+Test Error of PCR using the best number of components(190): 0.19551282051282048
+From here, we see that the test error has decreased from 0.21 to 0.19. This is a significant improvement. We can also look at the confusion matrix to see which classes are misclassified.
+
+```python
+pipe_pred_pcr_smote = pipe.predict(X_test)
+plot_cm(pipe_pred_pcr_smote, y_test, 'PCR Confusion Matrix')
+```
+
+![ConfusionMatrix2](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/PCR_cm.png)
+
+
 
 
 ## Random Forest
