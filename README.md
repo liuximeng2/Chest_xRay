@@ -305,6 +305,7 @@ plot_cm(pipe_pred_pcr, y_test, 'PCR Confusion Matrix')
 ```
 ![ConfusionMatrix](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/PCR_cm.png)
 
+- SMOTE(Synthetic Minority Oversampling Technique)
 We can see that there are more false negatives than false positives. This is largely attributed to the fact that the dataset is imbalanced. There are more images of pneumonia than normal. So the model is more likely to predict an image as pneumonia. To resolve this, we can use SMOTE to oversample the minority class.
 
 ```python
@@ -354,7 +355,7 @@ pipe.score(X_test, y_test)
 print(f"Test Error of PCR using the best number of components(190): {1 - pipe.score(X_test, y_test)}")
 ```
 Test Error of PCR using the best number of components(190): 0.19551282051282048
-From here, we see that the test error has decreased from 0.21 to 0.19. This is a significant improvement. We can also look at the confusion matrix to see which classes are misclassified.
+From here, we see that the test error has decreased from 0.21 to 0.19. We can also look at the confusion matrix to see which classes are misclassified.
 
 ```python
 pipe_pred_pcr_smote = pipe.predict(X_test)
@@ -362,7 +363,7 @@ plot_cm(pipe_pred_pcr_smote, y_test, 'PCR Confusion Matrix')
 ```
 
 ![ConfusionMatrix2](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/smote_pcr_cm.png)
-
+As we can see, the number of false negatives has decreased, while the number of false positives slightly increased. The overall test error has decreased.
 
 
 
