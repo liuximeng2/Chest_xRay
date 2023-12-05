@@ -45,7 +45,7 @@ import sklearn.model_selection as skm
 kfold = skm.KFold(n_splits=5, shuffle=True, random_state=123)
 ```
 
-- Regarding the training and test set  
+### Regarding the training and test set  
 1. The two folders have subfolders dividing them into NORMAL and PNEUMONIA images. However, for the purpose of training the model, we need to have a single folder or list containing all the images. To do so, we use the os and glob modules to read the images from the subfolders and save them into a single folder.
 
 2. We need to replace the labels of the images with 0 and 1. To do so, we create a dictionary with the key being the label and the value being the corresponding number. Then, we use the map function to replace the labels with the numbers.
@@ -98,7 +98,7 @@ for folder in  os.listdir(testpath) :
 np.save('X_test',X_test)
 np.save('y_test',y_test)
 ```
-
+</br>
 
 Let us check the shape of the training set to better understand what the data looks like at this point.
 ```python
