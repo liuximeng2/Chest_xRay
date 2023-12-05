@@ -361,7 +361,7 @@ pipe_pred_pcr_smote = pipe.predict(X_test)
 plot_cm(pipe_pred_pcr_smote, y_test, 'PCR Confusion Matrix')
 ```
 
-![ConfusionMatrix2](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/PCR_cm.png)
+![ConfusionMatrix2](https://github.com/liuximeng2/Chest_xRay/blob/main/PCR_Images/smote_pcr_cm.png)
 
 
 
