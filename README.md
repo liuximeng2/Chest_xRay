@@ -237,7 +237,13 @@ print(f"Best n_neighbors: {best_n_neighbors}")
 ```
 Then, we can use the optimized 'k' value to obtain our optimal accuracy:
 
+```python
+knn = KNeighborsClassifier(n_neighbors= 4).fit(X_train, y_train)
 
+accuracy = knn.score(X_test, y_test)
+
+print(f"Accuracy: {accuracy*100:.2f}%")
+```
 
 ## Principal Component Regression
 Principal Component Regression (PCR) is a regression method that uses Principal Component Analysis (PCA) to reduce the number of predictor variables. It is a method that is used to deal with multicollinearity. It is also a method that is used to deal with the curse of dimensionality.
