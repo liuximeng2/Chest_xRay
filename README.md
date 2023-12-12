@@ -199,6 +199,20 @@ While the above steps are applied to all the models, the name of the variables m
 
 
 ## KNN
+K-Nearest Neighbors (KNN) is a simple, versatile, and easy-to-implement supervised machine learning algorithm used for both classification and regression tasks. It predicts the class of a given data point based on the majority class of its 'k' nearest neighbors. The 'k' in KNN represents the number of nearest neighbors to include in the majority vote, and it is a hyperparameter that we choose to determine the outcome. In image classification, KNN is used to classify images by comparing the pixel values of the images to be classified with those of the training set.
+
+To apply the KNN algorithm, we need to first do the following:
+
+```python
+import numpy as np 
+import pandas as pd 
+from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+import matplotlib.pyplot as plt
+import sklearn.model_selection as skm
+```
+
+As we mentioned before, the hyperparameter 'k' is critical to the result we will get. Thus, we need to find the specific 'k' value which returns the highest accuracy.
 
 ## Principal Component Regression
 Principal Component Regression (PCR) is a regression method that uses Principal Component Analysis (PCA) to reduce the number of predictor variables. It is a method that is used to deal with multicollinearity. It is also a method that is used to deal with the curse of dimensionality.
