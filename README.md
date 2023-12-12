@@ -212,7 +212,32 @@ import matplotlib.pyplot as plt
 import sklearn.model_selection as skm
 ```
 
-As we mentioned before, the hyperparameter 'k' is critical to the result we will get. Thus, we need to find the specific 'k' value which returns the highest accuracy.
+As we mentioned before, the hyperparameter 'k' is critical to the result we will get. Thus, we need to find the specific 'k' value which returns the highest accuracy. We can use cross valication to obtain the best 'k' value (n_neighbors): 
+
+```python
+Kfold = skm.KFold(n_splits = 5, shuffle = True, random_state = 123)
+
+X_train = x_train.reshape([-1, np.product((64, 64, 3))])
+X_test = x_test.reshape([-1, np.product((64, 64, 3))])
+
+param_grid = {'n_neighbors': list(range(1, 101))}
+
+knn = KNeighborsClassifier()
+
+grid_search = GridSearchCV(knn, param_grid, cv=5, verbose=3)
+
+grid_search.fit(X_train, y_train)
+
+results = grid_search.cv_results_
+n_neighbors = list(range(1, 101))
+accuracies = results['mean_test_score']
+
+best_n_neighbors = grid_search.best_params_['n_neighbors']
+print(f"Best n_neighbors: {best_n_neighbors}")
+```
+Then, we can use the optimized 'k' value to obtain our optimal accuracy:
+
+
 
 ## Principal Component Regression
 Principal Component Regression (PCR) is a regression method that uses Principal Component Analysis (PCA) to reduce the number of predictor variables. It is a method that is used to deal with multicollinearity. It is also a method that is used to deal with the curse of dimensionality.
