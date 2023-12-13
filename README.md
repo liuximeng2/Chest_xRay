@@ -419,6 +419,12 @@ To duplicate the result run the following command
 ```python
 python run.py
 ```
+- model.py
+This file defines a convolutional neural network (CNN) model for image processing, specifically tailored for chest X-ray images. The model is implemented using PyTorch's neural network module (torch.nn). Key components of this model include:
+
+- GraphConvolution Class: A custom neural network class that extends nn.Module.
+Initialization: The constructor initializes various convolutional layers (conv1, conv2, conv3) and pooling layers. It also defines two fully connected layers (fc1, fc2).
+- Forward Pass: The forward method defines the forward pass of the network, applying convolutional layers, ReLU activations, pooling, and fully connected layers to the input data.
 
 
 ## Authors
