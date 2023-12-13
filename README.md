@@ -414,6 +414,40 @@ As we can see, the number of false negatives has decreased, while the number of 
 
 ## Random Forest
 
+We also did random forest to observe the test error. This binary dataset allowed us to use the the following packages
+
+``` python
+from sklearn.tree import DecisionTreeClassifier as DTC
+from sklearn.tree import DecisionTreeRegressor as DTR
+```
+
+From the preprocessed data, we set increasing number of trees to find the trend of the test error. 
+
+``` python
+number_of_trees = [10,30,40,50,70,80,90,100,200,300,400]
+Test_error_list = []
+```
+
+We don't have much time to capture test errors for more variation of the tree numbers. We build the following for-loop to calculate the test errors for each figures in the array above. Note we use RFC instead of DTR since the test set is binary. 
+
+``` python
+for n in number_of_trees:
+    RF_class = RFC(n_estimators=n, random_state=123, max_features=round(np.sqrt(X_train.shape[1])))
+    RF_class.fit(X_train, y_train)
+    RF_class_pred = RF_class.predict(X_test)
+    Test_error_list.append(1 - accuracy_score(y_test, RF_class_pred))
+```
+
+Then we ontained the following results:
+
+![截屏2023-12-12 20.25.44](/Users/happyeveryday/Library/Application Support/typora-user-images/截屏2023-12-12 20.25.44.png)
+
+To obtain the pattern of test error in different number of trees and find the optimal number, we plot the variation of test error with different number of trees.
+
+![image-20231212202729036](/Users/happyeveryday/Library/Application Support/typora-user-images/image-20231212202729036.png)
+
+The test error was lowest at the very beginning, which is around 0.205, and then increased drastically, then flat arond 200 trees. 
+
 ## Convolutional Neural Network
 
 
@@ -425,10 +459,10 @@ Name: Junyi (Conny) Zhou
 Contact: junyi.zhou@emory.edu
 
 Name: Simon Liu  
-Contact:
+Contact: 
 
 Name: Zhengyi Ou  
-Contact:
+Contact: zou23@emory.edu
 
 Name: Haokun Cheng  
 Contact: hche475@emory.edu
