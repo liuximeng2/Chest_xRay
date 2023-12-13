@@ -415,6 +415,10 @@ As we can see, the number of false negatives has decreased, while the number of 
 ## Random Forest
 
 ## Convolutional Neural Network
+To duplicate the result run the following command
+```python
+python run.py
+```
 
 
 ## Authors
