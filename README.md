@@ -440,11 +440,13 @@ for n in number_of_trees:
 
 Then we ontained the following results:
 
-![截屏2023-12-12 20.25.44](/Users/happyeveryday/Library/Application Support/typora-user-images/截屏2023-12-12 20.25.44.png)
+```
+![Training Shape](https://github.com/liuximeng2/Chest_xRay/blob/main/Random Forest/plot1.png)
+```
 
 To obtain the pattern of test error in different number of trees and find the optimal number, we plot the variation of test error with different number of trees.
 
-![image-20231212202729036](/Users/happyeveryday/Library/Application Support/typora-user-images/image-20231212202729036.png)
+![Training Shape](https://github.com/liuximeng2/Chest_xRay/blob/main/Random Forest/plot2.png)
 
 The test error was lowest at the very beginning, which is around 0.205, and then increased drastically, then flat arond 200 trees. 
 
