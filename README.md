@@ -417,7 +417,7 @@ As we can see, the number of false negatives has decreased, while the number of 
 ## Convolutional Neural Network
 To duplicate the result run the following command
 ```python
-python run.py
+python CNN/run.py
 ```
 ### model.py
 This file defines a convolutional neural network (CNN) model for image processing, specifically tailored for chest X-ray images. The model is implemented using PyTorch's neural network module (torch.nn). Key components of this model include:
