@@ -440,15 +440,12 @@ for n in number_of_trees:
 
 Then we ontained the following results:
 
-```
 ![plot1](https://github.com/liuximeng2/Chest_xRay/blob/main/RandomForest/plot1.png)
-```
 
 To obtain the pattern of test error in different number of trees and find the optimal number, we plot the variation of test error with different number of trees.
 
-```
-![plot2](https://github.com/liuximeng2/Chest_xRay/blob/main//RandomForest/plot1.png)
-```
+![plot1](https://github.com/liuximeng2/Chest_xRay/blob/main/RandomForest/plot3.png)
+
 
 The test error was lowest at the very beginning, which is around 0.205, and then increased drastically, then flat arond 200 trees. 
 
