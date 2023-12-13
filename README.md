@@ -437,6 +437,9 @@ The model is instantiated and moved to the appropriate device (CPU or GPU).
 - Model Evaluation: After training, the model's performance is evaluated on a test dataset, and the accuracy is printed.
 - Model Saving: The trained model is saved to a file for later use.
 
+### Result
+The CNN yields a result of 97% training accuracy, 84% validation accuracy, and 74% testing accuracy.
+
 
 ## Authors
 
